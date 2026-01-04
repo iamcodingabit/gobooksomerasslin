@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 )
 
 type Wrestler struct {
@@ -19,6 +21,7 @@ var Commands = map[string]interface{}{
 
 
 func main(){
+	scanner := bufio.NewScanner(os.Stdin)
 	wrestlers := []Wrestler{}
 	
 	fmt.Print("Keep adding by typing 'add': ")
@@ -28,7 +31,8 @@ func main(){
 	
 
 	for isActive {
-		fmt.Scan(&input)
+		scanner.Scan()
+		input = scanner.Text()
 		if input == "add" {
 			Commands[input].(func(*[]Wrestler))(&wrestlers)
 			fmt.Println(wrestlers)
