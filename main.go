@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 type Wrestler struct {
@@ -24,7 +25,7 @@ func main(){
 	scanner := bufio.NewScanner(os.Stdin)
 	wrestlers := []Wrestler{}
 	
-	fmt.Print("Keep adding by typing 'add': ")
+	fmt.Print("Add wrestlers by typing 'add', type 'quit' to quit: ")
 	input := ""
 	isActive := true
 	//Adding wrestlers
@@ -33,8 +34,11 @@ func main(){
 	for isActive {
 		scanner.Scan()
 		input = scanner.Text()
-		if input == "add" {
-			Commands[input].(func(*[]Wrestler))(&wrestlers)
+		command := strings.SplitAfterN(input, " ", 2)
+		fmt.Printf("\"%s\": %T\n", command[0], command[0])
+		fmt.Printf("\"%s\": %T\n", command[1], command[1])
+		if input != "quit" {
+			Commands[strings.Trim(command[0], " ")].(func(*[]Wrestler, string))(&wrestlers, command[1])
 			fmt.Println(wrestlers)
 		} else {
 			isActive = false
@@ -44,12 +48,8 @@ func main(){
 	fmt.Println("Thanks for using the app!")
 }
 
-func addWrestler(wrestlers *[]Wrestler){
+func addWrestler(wrestlers *[]Wrestler, newWrestler string){
 	var var1 Wrestler
-	var1.ringname = "Billy Graham"
-	var1.nickname = "Superstar"
-	var1.signature = "Suplex"
-	var1.finisher = "Powerslam"
-	
+	var1.ringname = newWrestler
 	*wrestlers = append(*wrestlers, var1)
 }
