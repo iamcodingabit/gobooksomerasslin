@@ -18,8 +18,6 @@ type Wrestler struct {
 var Commands = map[string]interface{}{
 	"add": addWrestler,
 }
-	
-
 
 func main(){
 	scanner := bufio.NewScanner(os.Stdin)
@@ -28,16 +26,13 @@ func main(){
 	fmt.Print("Add wrestlers by typing 'add', type 'quit' to quit: ")
 	input := ""
 	isActive := true
-	//Adding wrestlers
 	
-
 	for isActive {
 		scanner.Scan()
 		input = scanner.Text()
 		command := strings.SplitAfterN(input, " ", 2)
-		fmt.Printf("\"%s\": %T\n", command[0], command[0])
-		fmt.Printf("\"%s\": %T\n", command[1], command[1])
-		if input != "quit" {
+
+		if _, ok := Commands[strings.Trim(command[0], " ")]; ok {
 			Commands[strings.Trim(command[0], " ")].(func(*[]Wrestler, string))(&wrestlers, command[1])
 			fmt.Println(wrestlers)
 		} else {
