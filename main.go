@@ -1,10 +1,13 @@
 package main
 
 import (
-	"bufio"
+	//"bufio"
 	"fmt"
 	"os"
-	"strings"
+	"context"
+	"log"
+	//"strings"
+	"github.com/urfave/cli/v3" // imports as package "cli"
 )
 
 type Wrestler struct {
@@ -22,6 +25,22 @@ var Commands = map[string]interface{}{
 	"finish": addWrestler,
 }
 
+func main(){
+	cmd := &cli.Command{
+        Name:  "boom",
+        Usage: "make an explosive entrance",
+        Action: func(context.Context, *cli.Command) error {
+            fmt.Println("boom! I say!")
+            return nil
+        },
+    }
+
+    if err := cmd.Run(context.Background(), os.Args); err != nil {
+        log.Fatal(err)
+    }
+}
+
+/*
 func main(){
 	scanner := bufio.NewScanner(os.Stdin)
 	wrestlers := []Wrestler{}
@@ -46,7 +65,7 @@ func main(){
 	
 	fmt.Println("Thanks for using the app!")
 }
-
+*/
 func addWrestler(wrestlers *[]Wrestler, newWrestler string){
 	var var1 Wrestler
 	var1.ringname = newWrestler
