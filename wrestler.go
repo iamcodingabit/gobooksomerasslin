@@ -1,4 +1,4 @@
-package wrestler
+package roster
 
 import (
 	//"fmt"
