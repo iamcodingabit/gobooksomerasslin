@@ -9,7 +9,3 @@ type Wrestler struct {
 	alignment string // face | heel | tweener?
 	signature_move string
 }
-
-type WrestlerBehavior interface {
-	
-}

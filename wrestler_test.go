@@ -1,9 +1,5 @@
 package roster
 
 import (
-	"testing"
+	//"testing"
 )
-
-func TestAddWrestler(t *testing.T){
-
-}
