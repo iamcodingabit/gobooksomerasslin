@@ -1,5 +1,0 @@
-package roster
-
-import (
-	//"testing"
-)

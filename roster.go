@@ -1,4 +1,4 @@
-package roster
+package main
 
 import (
 	
