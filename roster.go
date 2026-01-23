@@ -1,26 +1,15 @@
 package main
 
-import (
-	
-)
+import "fmt"
 
-func addWrestler(wrestler Wrestler, ringname, alignment, signature_move string) Wrestler{
-	wrestler.ringname = ringname
-	wrestler.alignment = alignment
-	wrestler.signature_move = signature_move
-
-	return wrestler
+func addWrestler(wrestler Wrestler){
+	wrestlers = append(wrestlers, wrestler)
 }
 
-func listWrestler(ringname string) map[int]Wrestler{
-	//Some get statement here
-	//Map to Wrestler
-
-	wrestlers := map[int]Wrestler{
-
+func listWrestlers(){
+	for _, y := range wrestlers {
+		fmt.Printf("%s - %s - %s\n", y.ringname, y.alignment, y.signature_move)
 	}
-
-	return wrestlers
 }
 
 func removeWrestler(wrestler Wrestler){
