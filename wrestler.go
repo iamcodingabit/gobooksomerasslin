@@ -1,13 +1,25 @@
 package main
 
 type Wrestler struct {
-	ringname string `json:"ringname"`
-	alignment string `json:"alignment"` // face | heel | tweener
-	signature_move string `json:"signature_move"`
+	Ringname string `json:"ringname"`
+	Alignment string `json:"alignment"` // face | heel | tweener
+	SignatureMove string `json:"signature_move"`
 }
 
-var wrestlers = []Wrestler{
-	{ringname: "King Mystery", alignment: "face", signature_move: "Area Codes"},
-	{ringname: "Jonathan C. Nah", alignment: "face", signature_move: "Fix Your Face"},
-	{ringname: "HANS", alignment: "heel", signature_move: "Piledriver"},
-}
+type (
+	WrestlerUsecase interface{
+		Sign(wrestler *Wrestler) error
+		List() ([]Wrestler,  error)
+		Get(ringname string) (Wrestler, error)
+		Update(ringname string) (Wrestler, error)
+		Release(ringname string) (Wrestler, error)
+	}
+
+	WrestlerRepository interface{
+		Create(wrestler *Wrestler) error
+		ReadAllWrestler() ([]Wrestler,  error)
+		ReadWrestlerByRingname(ringname string) (Wrestler, error)
+		Update(ringname string) (Wrestler, error)
+		Delete(ringname string) (Wrestler, error)
+	}
+)

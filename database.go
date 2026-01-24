@@ -21,9 +21,9 @@ func connect(){
 	defer conn.Close(context.Background())
 
 	var wrestler Wrestler
-	err = conn.QueryRow(context.Background(), "select ringname, alignment, signature_move FROM wrestlers where ringname LIKE $1;","%King%Mystery%").Scan(&wrestler.ringname, &wrestler.alignment, &wrestler.signature_move)
+	err = conn.QueryRow(context.Background(), "select ringname, alignment, signature_move FROM wrestlers where ringname LIKE $1;","%King%Mystery%").Scan(&wrestler.Ringname, &wrestler.Alignment, &wrestler.SignatureMove)
 
 
-	fmt.Printf("%s - %s - %s\n", wrestler.ringname, wrestler.alignment, wrestler.signature_move)
+	fmt.Printf("%s - %s - %s\n", wrestler.Ringname, wrestler.Alignment, wrestler.SignatureMove)
 }
 
