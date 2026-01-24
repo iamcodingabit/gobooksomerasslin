@@ -2,7 +2,7 @@ package main
 
 type Wrestler struct {
 	ringname string `json:"ringname"`
-	alignment string `json:"alignment"` // face | heel | tweener?
+	alignment string `json:"alignment"` // face | heel | tweener
 	signature_move string `json:"signature_move"`
 }
 
