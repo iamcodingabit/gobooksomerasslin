@@ -1,13 +1,14 @@
 package main
 
 import (
-	"bufio"
-	"os"
-	"strings"
-	"fmt"
+	//"bufio"
+	//"os"
+	//"strings"
+	//"fmt"
 )
 
 func main(){
+	/*
 	scanner := bufio.NewReader(os.Stdin)
 
 	fmt.Print("Ringname: ")
@@ -26,4 +27,6 @@ func main(){
 	})
 	
 	listWrestlers()
+	*/
+	connect()
 }
