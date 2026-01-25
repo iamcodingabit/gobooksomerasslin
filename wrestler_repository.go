@@ -8,27 +8,27 @@ import (
 )
 
 type wrestlerRepository struct {
-	wrestler Wrestler
 	dbpool *pgxpool.Pool
 }
 
-func (w *wrestlerRepository) Create(wrestler *Wrestler) error{
+func (w *wrestlerRepository) Create(c context.Context, wrestler *Wrestler) error{
 	var id int
 	fmt.Println(wrestler.Ringname)
 	fmt.Println(wrestler.Alignment)
 	fmt.Println(wrestler.SignatureMove)
 
 	query := `
-		INSERT INTO wrestlers(ringname, alignment, signature_move)
-		VALUES ($1, $2, $3)
-		RETURNING id;
+		INSERT INTO wrestlers(ringname, alignment, signature_move) 
+		VALUES ($1, $2, $3) 
+		RETURNING wrestler_id;
 	`
-	err := w.dbpool.QueryRow(context.Background(), query, wrestler.Ringname, wrestler.Alignment, wrestler.SignatureMove).Scan(&id)
+	
+	err := w.dbpool.QueryRow(c, query, wrestler.Ringname, wrestler.Alignment, wrestler.SignatureMove).Scan(&id)
 	if err != nil {
 		return fmt.Errorf("error creating task: %w", err)
 	}
 
-	fmt.Printf("Created task with ID: %d\n", id)
+	fmt.Printf("Created wrestler with ID: %d\n", id)
 	return nil
 
 	/*
