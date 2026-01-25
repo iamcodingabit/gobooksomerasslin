@@ -31,13 +31,6 @@ func (w *wrestlerRepository) Create(c context.Context, wrestler *Wrestler) error
 }
 
 func (w *wrestlerRepository) ReadWrestlerByRingname(c context.Context, ringname string) (Wrestler, error){
-	/*
-	var wrestler Wrestler
-	err = dbpool.QueryRow(context.Background(), "select ringname, alignment, signature_move FROM wrestlers where ringname LIKE $1;","%King%Mystery%").Scan(&wrestler.Ringname, &wrestler.Alignment, &wrestler.SignatureMove)
-
-
-	fmt.Printf("%s - %s - %s\n", wrestler.Ringname, wrestler.Alignment, wrestler.SignatureMove)
-	*/
 	var wrestler Wrestler
 	query := "SELECT ringname, alignment, signature_move FROM wrestlers where ringname LIKE $1"
 
@@ -47,4 +40,30 @@ func (w *wrestlerRepository) ReadWrestlerByRingname(c context.Context, ringname 
 	}
 
 	return wrestler, nil
+}
+
+func (w *wrestlerRepository) ReadAllWrestler(c context.Context) ([]Wrestler,  error) {
+	var wrestlers []Wrestler
+	query := "SELECT ringname, alignment, signature_move FROM wrestlers ORDER BY ringname"
+
+	rows, err := w.dbpool.Query(c, query)
+	if err != nil {
+		return wrestlers, fmt.Errorf("error querying wreslters: %w", err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var wrestler Wrestler
+		err := rows.Scan(
+			&wrestler.Ringname,
+			&wrestler.Alignment,
+			&wrestler.SignatureMove,
+		)
+		if err != nil {
+			return nil, fmt.Errorf("error scanning wrestler row: %w", err)
+		}
+		wrestlers = append(wrestlers, wrestler)
+	}
+
+	return wrestlers, nil
 }

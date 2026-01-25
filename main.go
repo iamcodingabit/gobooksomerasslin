@@ -18,7 +18,11 @@ func main(){
 		dbpool: pool,		
 	}
 
-	fmt.Println(w.ReadWrestlerByRingname(context.Background(), "Kurt Angle"))
+	wrestlers, _ := w.ReadAllWrestler(context.Background())
+
+	for _, v := range(wrestlers){
+		fmt.Printf("%s - %s - %s\n", v.Ringname, v.Alignment, v.SignatureMove)
+	}
 
 	defer pool.Close()
 }
