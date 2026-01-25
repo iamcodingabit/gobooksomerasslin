@@ -13,7 +13,7 @@ type (
 		Create(c context.Context, wrestler *Wrestler) error
 		ReadAllWrestler(c context.Context) ([]Wrestler,  error)
 		ReadWrestlerByRingname(c context.Context, ringname string) (Wrestler, error)
-		Update(c context.Context, ringname string) (Wrestler, error)
+		UpdateRingname(c context.Context, current_ringname string, new_ringname string) (Wrestler, error)
 		Delete(c context.Context, ringname string) (Wrestler, error)
 	}
 )
