@@ -4,26 +4,28 @@ import (
 	//"database/sql"
 	//"github.com/lib/pq"
 	"context"
-	"os"
 	"fmt"
-	"github.com/jackc/pgx/v5"
-	"github.com/joho/godotenv"
+	"log"
+	"os"
+
+	//"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func connect(){
-	err := godotenv.Load()
-	conn, err := pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
-	
+func connect()*pgxpool.Pool{
+	dbpool, err := pgxpool.New(context.Background(), os.Getenv("DATABASE_URL"))
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Unable to create connection pool: %v\n", err)
 		os.Exit(1)
 	}
-	defer conn.Close(context.Background())
+	defer dbpool.Close()
 
-	var wrestler Wrestler
-	err = conn.QueryRow(context.Background(), "select ringname, alignment, signature_move FROM wrestlers where ringname LIKE $1;","%King%Mystery%").Scan(&wrestler.Ringname, &wrestler.Alignment, &wrestler.SignatureMove)
+	if err := dbpool.Ping(context.Background()) 
+	err != nil {
+		log.Fatal("Unable to ping database:", err)
+	}
 
-
-	fmt.Printf("%s - %s - %s\n", wrestler.Ringname, wrestler.Alignment, wrestler.SignatureMove)
+	fmt.Println("Connected to database!")
+	return dbpool
 }
 

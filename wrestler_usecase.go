@@ -7,6 +7,6 @@ type wrestlerUsecase struct {
 }
 
 func (w wrestlerUsecase) Sign(wrestler *Wrestler) error{
-
+	
 	return nil
 }

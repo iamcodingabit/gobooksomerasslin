@@ -7,6 +7,7 @@ type Wrestler struct {
 }
 
 type (
+	/*
 	WrestlerUsecase interface{
 		Sign(wrestler *Wrestler) error
 		List() ([]Wrestler,  error)
@@ -14,6 +15,7 @@ type (
 		Update(ringname string) (Wrestler, error)
 		Release(ringname string) (Wrestler, error)
 	}
+	*/
 
 	WrestlerRepository interface{
 		Create(wrestler *Wrestler) error
