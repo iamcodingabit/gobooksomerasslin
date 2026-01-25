@@ -17,11 +17,9 @@ func (w *wrestlerRepository) Create(c context.Context, wrestler *Wrestler) error
 	fmt.Println(wrestler.Alignment)
 	fmt.Println(wrestler.SignatureMove)
 
-	query := `
-		INSERT INTO wrestlers(ringname, alignment, signature_move) 
+	query := `INSERT INTO wrestlers(ringname, alignment, signature_move) 
 		VALUES ($1, $2, $3) 
-		RETURNING wrestler_id;
-	`
+		RETURNING wrestler_id;`
 	
 	err := w.dbpool.QueryRow(c, query, wrestler.Ringname, wrestler.Alignment, wrestler.SignatureMove).Scan(&id)
 	if err != nil {
@@ -30,7 +28,9 @@ func (w *wrestlerRepository) Create(c context.Context, wrestler *Wrestler) error
 
 	fmt.Printf("Created wrestler with ID: %d\n", id)
 	return nil
+}
 
+func (w *wrestlerRepository) ReadWrestlerByRingname(c context.Context, ringname string) (Wrestler, error){
 	/*
 	var wrestler Wrestler
 	err = dbpool.QueryRow(context.Background(), "select ringname, alignment, signature_move FROM wrestlers where ringname LIKE $1;","%King%Mystery%").Scan(&wrestler.Ringname, &wrestler.Alignment, &wrestler.SignatureMove)
@@ -38,4 +38,13 @@ func (w *wrestlerRepository) Create(c context.Context, wrestler *Wrestler) error
 
 	fmt.Printf("%s - %s - %s\n", wrestler.Ringname, wrestler.Alignment, wrestler.SignatureMove)
 	*/
+	var wrestler Wrestler
+	query := "SELECT ringname, alignment, signature_move FROM wrestlers where ringname LIKE $1"
+
+	err := w.dbpool.QueryRow(c, query, ringname).Scan(&wrestler.Ringname, &wrestler.Alignment, &wrestler.SignatureMove)
+	if err != nil {
+		return wrestler, fmt.Errorf("error reading task: %w", err)
+	}
+
+	return wrestler, nil
 }
