@@ -39,7 +39,7 @@ func (w *wrestlerRepository) ReadWrestlerByRingname(c context.Context, ringname 
 	return wrestler, nil
 }
 
-func (w *wrestlerRepository) ReadAllWrestler() (error) {
+func (w *wrestlerRepository) ReadAllWrestler() error {
 	var wrestlers []Wrestler
 	query := "SELECT ringname, alignment, signature_move FROM wrestlers ORDER BY ringname"
 	c := context.Background()
@@ -69,7 +69,7 @@ func (w *wrestlerRepository) ReadAllWrestler() (error) {
 	return nil
 }
 
-func (w *wrestlerRepository) UpdateRingname(c context.Context, current_ringname string, new_ringname string) (error){
+func (w *wrestlerRepository) UpdateRingname(c context.Context, current_ringname string, new_ringname string) error{
 	query := `
 		UPDATE wrestlers
 		SET ringname = $2

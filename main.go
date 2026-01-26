@@ -12,11 +12,10 @@ import (
 
 func main(){
 	godotenv.Load()
-	pool := database.connect()
+	pool := database.Connect()
 	c := context.Background()
-
-	w := wrestlerRepository {
-		dbpool: pool,		
+	var w WrestlerRepository = &wrestlerRepository{ 
+		dbpool: pool, 
 	}
 	wrestlerToUpdate := Wrestler{"Kurt Angle", "face", "Ankle Lock"} //Whoops! I meant to do Chad Gable
 	newWrestler := "Chad Gable"

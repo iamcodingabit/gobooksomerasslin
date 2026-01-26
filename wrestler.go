@@ -11,9 +11,9 @@ type Wrestler struct {
 type (
 	WrestlerRepository interface{
 		Create(c context.Context, wrestler *Wrestler) error
-		ReadAllWrestler(c context.Context) ([]Wrestler,  error)
+		ReadAllWrestler() error
 		ReadWrestlerByRingname(c context.Context, ringname string) (Wrestler, error)
-		UpdateRingname(c context.Context, current_ringname string, new_ringname string) (Wrestler, error)
-		Delete(c context.Context, ringname string) (Wrestler, error)
+		UpdateRingname(c context.Context, current_ringname string, new_ringname string) error
+		DeleteByRingname(c context.Context, ringname string) (string, error)
 	}
 )
