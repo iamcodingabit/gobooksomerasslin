@@ -4,15 +4,15 @@ import (
 	//"bufio"
 	//"os"
 	//"strings"
-	"fmt"
 	"context"
-
+	"fmt"
+	"github.com/iamcodingabit/gobooksomerasslin/database"
 	"github.com/joho/godotenv"
 )
 
 func main(){
 	godotenv.Load()
-	pool := connect()
+	pool := database.connect()
 	c := context.Background()
 
 	w := wrestlerRepository {
