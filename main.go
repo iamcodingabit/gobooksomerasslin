@@ -4,38 +4,37 @@ import (
 	//"bufio"
 	//"os"
 	//"strings"
-	"context"
+	//"context"
 	"fmt"
 	"github.com/iamcodingabit/gobooksomerasslin/database"
 	"github.com/joho/godotenv"
+	"github.com/rivo/tview"
 )
 
 func main(){
 	godotenv.Load()
 	pool := database.Connect()
-	c := context.Background()
+	//c := context.Background()
 	var w WrestlerRepository = &wrestlerRepository{ 
 		dbpool: pool, 
 	}
-	wrestlerToUpdate := Wrestler{"Kurt Angle", "face", "Ankle Lock"} //Whoops! I meant to do Chad Gable
-	newWrestler := "Chad Gable"
-	wrestlerToDelete := Wrestler{"Contra Verci", "heel", "Paws of Injustice"} //Can't keep this guy around...
 
-	w.Create(c, &wrestlerToUpdate)
-	w.Create(c, &wrestlerToDelete)
-	fmt.Println()
-	fmt.Println("Wrestlers after creations (to update and to delete):")
-	w.ReadAllWrestler()
+	app := tview.NewApplication()
+
+	wrestlers, _ := w.ReadAllWrestler()
 	
-	fmt.Println()
-	fmt.Println(w.DeleteByRingname(c, wrestlerToDelete.Ringname))
-	fmt.Println(w.UpdateRingname(c, "Kurt Angle", "Chad Gable"))
-	fmt.Println()
+	wrestlerList := tview.NewTextView().SetDynamicColors(true).SetRegions(true).SetWordWrap(true)
+	wrestlerList.SetBorder(true).SetTitle("Wrestlers")
+
+	for _, wrestler := range wrestlers {
+		fmt.Fprintf(wrestlerList, "%s - %s - %s\n", wrestler.Ringname, wrestler.Alignment, wrestler.SignatureMove)
+	}
+
+	flex := tview.NewFlex().AddItem(wrestlerList, 0, 1, false)
+
+	if err:=app.SetRoot(flex, true).Run(); err != nil{
+		panic(err)
+	}
 	
-	fmt.Println("After updating and deleting:")
-	w.ReadAllWrestler()
-	fmt.Println()
-	//closing, deleting the changes to just the seeded entries to repeat
-	w.DeleteByRingname(c, newWrestler)
 	defer pool.Close()
 }

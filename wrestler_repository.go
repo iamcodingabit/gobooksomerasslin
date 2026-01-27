@@ -39,13 +39,13 @@ func (w *wrestlerRepository) ReadWrestlerByRingname(c context.Context, ringname 
 	return wrestler, nil
 }
 
-func (w *wrestlerRepository) ReadAllWrestler() error {
+func (w *wrestlerRepository) ReadAllWrestler() ([]Wrestler, error) {
 	var wrestlers []Wrestler
 	query := "SELECT ringname, alignment, signature_move FROM wrestlers ORDER BY ringname"
 	c := context.Background()
 	rows, err := w.dbpool.Query(c, query)
 	if err != nil {
-		return fmt.Errorf("error querying wreslters: %w", err)
+		return nil, fmt.Errorf("error querying wreslters: %w", err)
 	}
 	defer rows.Close()
 
@@ -57,16 +57,12 @@ func (w *wrestlerRepository) ReadAllWrestler() error {
 			&wrestler.SignatureMove,
 		)
 		if err != nil {
-			return fmt.Errorf("error scanning wrestler row: %w", err)
+			return nil, fmt.Errorf("error scanning wrestler row: %w", err)
 		}
 		wrestlers = append(wrestlers, wrestler)
 	}
 
-	for _, v := range(wrestlers){
-		fmt.Printf("%s - %s - %s\n", v.Ringname, v.Alignment, v.SignatureMove)
-	}
-
-	return nil
+	return wrestlers, nil
 }
 
 func (w *wrestlerRepository) UpdateRingname(c context.Context, current_ringname string, new_ringname string) error{
