@@ -5,7 +5,7 @@ import (
 	//"os"
 	//"strings"
 	//"context"
-	//"fmt"
+	"fmt"
 	"github.com/iamcodingabit/gobooksomerasslin/database"
 	"github.com/joho/godotenv"
 	"github.com/rivo/tview"
@@ -23,16 +23,36 @@ func main(){
 
 	wrestlers, _ := w.ReadAllWrestler()
 
-	wrestlerList2 := tview.NewList().ShowSecondaryText(false)
-
+	wrestlerList := tview.NewList().ShowSecondaryText(false)
 	for _, wrestler := range wrestlers {
-		wrestlerList2.AddItem(wrestler.Ringname, "", 0, func(){})
+		wrestlerList.AddItem(wrestler.Ringname, "Test", 0, func(){})
 	}
-	
-	flex := tview.NewFlex().
-		AddItem(wrestlerList2, 0, 1, false)
 
-	if err:=app.SetRoot(flex, true).Run(); err != nil{
+	//textboox for insertion
+	//insert_flex := tview.NewFlex().AddItem(tview.NewTextArea(), 0, 1, false)
+
+	menuList := tview.NewList().
+		AddItem("Create wrestler", "", 0, func(){
+		}).
+		AddItem("Remove wrestler", "", 0, func(){})
+	
+	/*
+	flex := tview.NewFlex().
+		AddItem(wrestlerList, 0, 1, false).
+		AddItem(randomList, 0, 1, true)
+	*/
+
+	grid := tview.NewGrid().SetRows(3, 0, 3).SetColumns(30, 0,30).SetBorders(true)
+
+	button_prompts := tview.NewTextView()
+	fmt.Fprintf(button_prompts, "c - create wrestler")
+
+
+	grid.AddItem(wrestlerList, 1, 2, 1, 1, 0, 0, false).
+		AddItem(menuList , 1, 0, 1, 1, 0, 0, true).
+		AddItem(button_prompts, 2, 0, 1, 3, 0, 0, false)
+	
+	if err:=app.SetRoot(grid, true).Run(); err != nil{
 		panic(err)
 	}
 	
