@@ -5,7 +5,7 @@ import (
 	//"os"
 	//"strings"
 	//"context"
-	"fmt"
+	//"fmt"
 	"github.com/iamcodingabit/gobooksomerasslin/database"
 	"github.com/joho/godotenv"
 	"github.com/rivo/tview"
@@ -22,15 +22,15 @@ func main(){
 	app := tview.NewApplication()
 
 	wrestlers, _ := w.ReadAllWrestler()
-	
-	wrestlerList := tview.NewTextView().SetDynamicColors(true).SetRegions(true).SetWordWrap(true)
-	wrestlerList.SetBorder(true).SetTitle("Wrestlers")
+
+	wrestlerList2 := tview.NewList().ShowSecondaryText(false)
 
 	for _, wrestler := range wrestlers {
-		fmt.Fprintf(wrestlerList, "%s - %s - %s\n", wrestler.Ringname, wrestler.Alignment, wrestler.SignatureMove)
+		wrestlerList2.AddItem(wrestler.Ringname, "", 0, func(){})
 	}
-
-	flex := tview.NewFlex().AddItem(wrestlerList, 0, 1, false)
+	
+	flex := tview.NewFlex().
+		AddItem(wrestlerList2, 0, 1, false)
 
 	if err:=app.SetRoot(flex, true).Run(); err != nil{
 		panic(err)
